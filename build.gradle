@@ -41,6 +41,6 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
-mainClassName = 'org.http4k.demo.S3BoxApp'
+mainClassName = 'org.http4k.demo.S3BoxAppKt'
 
 task stage(dependsOn: ['installDist'])

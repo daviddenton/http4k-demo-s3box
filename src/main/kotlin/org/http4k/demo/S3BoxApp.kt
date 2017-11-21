@@ -12,7 +12,10 @@ import org.http4k.core.Response
 import org.http4k.core.Status.Companion.NOT_FOUND
 import org.http4k.core.Status.Companion.OK
 import org.http4k.core.Status.Companion.SEE_OTHER
+import org.http4k.core.then
 import org.http4k.core.with
+import org.http4k.demo.Settings.CREDENTIALS
+import org.http4k.filter.ServerFilters
 import org.http4k.lens.Header.Common.CONTENT_TYPE
 import org.http4k.lens.MultipartFormFile
 import org.http4k.lens.Path
@@ -72,12 +75,14 @@ object S3BoxApp {
     operator fun invoke(config: Configuration): RoutingHttpHandler {
         val s3 = S3.configured(config)
 
-        return routes(
-            "/{id}/delete" bind POST to Delete(s3),
-            "/{id}" bind GET to Get(s3),
-            "/" bind routes(
-                POST to Upload(s3),
-                GET to Index(s3)
+        return  ServerFilters.BasicAuth("http4k", config[CREDENTIALS]).then(
+            routes(
+                "/{id}/delete" bind POST to Delete(s3),
+                "/{id}" bind GET to Get(s3),
+                "/" bind routes(
+                    POST to Upload(s3),
+                    GET to Index(s3)
+                )
             )
         )
     }

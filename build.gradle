@@ -28,11 +28,15 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    compile 'io.github.daviddenton:konfigur8:1.7.0'
 
+    compile "org.http4k:http4k-aws:$http4k_version"
     compile "org.http4k:http4k-core:$http4k_version"
+    compile "org.http4k:http4k-client-apache:$http4k_version"
+    compile "org.http4k:http4k-format-xml:$http4k_version"
     compile "org.http4k:http4k-server-jetty:$http4k_version"
     compile "org.http4k:http4k-template-handlebars:$http4k_version"
-    compile "org.http4k:http4k-aws:$http4k_version"
+    compile "org.http4k:http4k-multipart:$http4k_version"
 
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }

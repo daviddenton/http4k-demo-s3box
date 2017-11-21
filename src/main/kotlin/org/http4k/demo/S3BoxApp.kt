@@ -38,7 +38,7 @@ object Index {
 }
 
 object Upload {
-    private val files = MultipartFormFile.multi.required("files")
+    private val files = MultipartFormFile.multi.required("file")
     private val form = Body.multipartForm(Validator.Strict, files).toLens()
 
     operator fun invoke(s3: S3): HttpHandler = { req ->

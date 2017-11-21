@@ -1,5 +1,5 @@
 <head>
-    <title>S3Box!</title>
+    <title>S3 Box!</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
@@ -14,6 +14,10 @@
         .logo {
             max-height: 30px;
             vertical-align: bottom;
+        }
+
+        .upload {
+            float: right;
         }
     </style>
 </head>
@@ -30,6 +34,12 @@
     </div>
 </nav>
 <body>
+<span class="upload">
+    <form method="POST" action="/" enctype="multipart/form-data">
+        <button>upload</button>
+        <input type="file" name="files"/>
+    </form>
+</span>
 <div>
     <h3>Files:</h3>
     <table class="table table-striped">
@@ -54,12 +64,6 @@
         {{/files}}
         </tbody>
     </table>
-</div>
-<div>
-    <form method="POST" action="/" enctype="multipart/form-data">
-        <input type="file" name="files"/>
-        <button>upload</button>
-    </form>
 </div>
 </body>
 </html>

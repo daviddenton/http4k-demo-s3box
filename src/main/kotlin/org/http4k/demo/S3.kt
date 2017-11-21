@@ -21,10 +21,9 @@ import java.io.InputStream
 
 class S3Error(status: Status) : Exception("S3 returned $status")
 
-data class S3File(val key: String, val size: Int) {
+data class S3File(val key: String) {
     companion object {
-        fun parseFiles(value: String) = Regex("""Key>(.+?)</Key""").findAll(value)
-            .map { S3File(it.groupValues[1], -1) }.toList()
+        fun parseFiles(value: String) = Regex("""Key>(.+?)</Key""").findAll(value).map { S3File(it.groupValues[1]) }.toList()
     }
 }
 

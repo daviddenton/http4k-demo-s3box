@@ -46,7 +46,6 @@
         <thead>
         <tr>
             <th>Name</th>
-            <th>Size (bytes)</th>
             <th>Action</th>
         </tr>
         </thead>
@@ -54,7 +53,6 @@
         {{#files}}
             <tr>
                 <td><a href="/{{key}}">{{key}}</a></td>
-                <td>{{size}}</td>
                 <td>
                     <form method="POST" action="/{{key}}/delete">
                         <button>delete</button>

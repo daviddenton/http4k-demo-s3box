@@ -1,4 +1,4 @@
-package org.http4k.example
+package org.http4k.demo
 
 import org.http4k.core.Method.GET
 import org.http4k.core.Request
@@ -15,5 +15,5 @@ fun main(args: Array<String>) {
 
     val app = routes("/" bind GET to { _: Request -> Response(OK).body("Hello World!") })
 
-    app.asServer(Jetty(port)).startAndBlock()
+    app.asServer(Jetty(port)).start().block()
 }

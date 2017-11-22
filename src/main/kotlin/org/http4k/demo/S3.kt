@@ -11,7 +11,6 @@ import org.http4k.core.Method.GET
 import org.http4k.core.Method.PUT
 import org.http4k.core.Request
 import org.http4k.core.Status
-import org.http4k.core.Status.Companion.OK
 import org.http4k.core.Uri
 import org.http4k.core.then
 import org.http4k.demo.Settings.AWS_BUCKET_URL
@@ -25,6 +24,7 @@ import java.io.InputStream
 class S3Error(status: Status) : Exception("S3 returned $status")
 
 data class S3File(val key: String) {
+
     companion object {
         fun parseFiles(value: String) = Regex("""Key>(.+?)</Key""").findAll(value).map { S3File(it.groupValues[1]) }.toList()
     }
@@ -34,23 +34,22 @@ class S3(private val aws: HttpHandler) {
 
     private val listFiles = Body.string(APPLICATION_XML).map(S3File.Companion::parseFiles).toLens()
 
-    fun list(): List<S3File> =
-        aws(Request(GET, "/")).run {
-            if (status.successful) listFiles(this) else throw S3Error(status)
-        }
-
-    operator fun get(key: String): InputStream? = aws(Request(GET, "/$key")).run {
-        if (status == OK) body.stream else throw S3Error(status)
+    fun list(): List<S3File> = aws(Request(GET, "/")).run {
+        if (status.successful) listFiles(this) else throw S3Error(status)
     }
 
-    operator fun set(key: String, content: InputStream) {
-        aws(Request(PUT, "/$key").body(content)).run {
+    operator fun get(file: S3File): InputStream? = aws(Request(GET, "/${file.key}")).run {
+        if (status.successful) body.stream else throw S3Error(status)
+    }
+
+    operator fun set(file: S3File, content: InputStream) {
+        aws(Request(PUT, "/${file.key}").body(content)).run {
             if (!status.successful) throw S3Error(status)
         }
     }
 
-    fun delete(key: String) {
-        aws(Request(DELETE, "/$key")).run {
+    fun delete(file: S3File) {
+        aws(Request(DELETE, "/${file.key}")).run {
             if (!status.successful) throw S3Error(status)
         }
     }

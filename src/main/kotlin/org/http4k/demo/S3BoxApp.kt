@@ -45,25 +45,21 @@ object Upload {
     private val form = Body.multipartForm(Validator.Strict, files).toLens()
 
     operator fun invoke(s3: S3): HttpHandler = { req ->
-        files(form(req)).forEach {
-            s3[it.filename] = it.content
-        }
+        files(form(req)).forEach { s3[S3File(it.filename)] = it.content }
         Response(SEE_OTHER).header("location", "/")
     }
 }
 
 object Get {
-    private val id = Path.of("id")
+    private val id = Path.map(::S3File).of("id")
 
     operator fun invoke(s3: S3) = { req: Request ->
-        s3[id(req)]?.let { Response(OK)
-            .with(CONTENT_TYPE of OCTET_STREAM)
-            .body(it) } ?: Response(NOT_FOUND)
+        s3[id(req)]?.let { Response(OK).with(CONTENT_TYPE of OCTET_STREAM).body(it) } ?: Response(NOT_FOUND)
     }
 }
 
 object Delete {
-    private val id = Path.of("id")
+    private val id = Path.map(::S3File).of("id")
 
     operator fun invoke(s3: S3) = { req: Request ->
         s3.delete(id(req))
@@ -75,7 +71,7 @@ object S3BoxApp {
     operator fun invoke(config: Configuration): RoutingHttpHandler {
         val s3 = S3.configured(config)
 
-        return  ServerFilters.BasicAuth("http4k", config[CREDENTIALS]).then(
+        return ServerFilters.BasicAuth("http4k", config[CREDENTIALS]).then(
             routes(
                 "/{id}/delete" bind POST to Delete(s3),
                 "/{id}" bind GET to Get(s3),

@@ -13,10 +13,13 @@ It uses the following [**http4k**](https://http4k.org) modules and features:
 - Handlebars templating `http4k-template-handlebars`
 - http4k multipart forms `http4k-multipart`
 
-In action:
+It is deployed into Heroku [**here**](http://http4k-demo-s3box.herokuapp.com/).
+
+## In action:
+
 <img src="https://github.com/daviddenton/http4k-demo-s3box/raw/master/screenshot.png"/>
 
-## Pre-requisites
+## Running it locally
 
 Required environment variables:
 ```
@@ -25,7 +28,5 @@ S3_REGION=<s3-region>                           // eg. us-east-1
 AWS_CREDENTIALS=<awsAccessKey>:<awsSecretKey>   // AWS access key with full S3 access
 AWS_BUCKET=<bucket>                             // existing AWS bucket
 ```
-
-## Running it locally
 
 Set the above environment variables and run the `S3BoxLauncher` class. The app will be available on [http://localhost:5000](http://localhost:5000)

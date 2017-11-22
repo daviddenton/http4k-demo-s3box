@@ -9,9 +9,12 @@ It uses the following [**http4k**](https://http4k.org) modules and features:
 - http4k core `http4k-core`
 - Jetty server module `http4k-server-jetty`
 - Apache HTTP client `http4k-client-apache`
-- AWS request signing `http4k-aws` <-- This replaces the Java AWS SDK.
+- AWS `http4k-aws` <-- This replaces the Java AWS SDK.
 - Handlebars templating `http4k-template-handlebars`
 - http4k multipart forms `http4k-multipart`
+
+In action:
+<img src="https://github.com/daviddenton/http4k-demo-s3box/raw/master/screenshot.png"/>
 
 ## Pre-requisites
 

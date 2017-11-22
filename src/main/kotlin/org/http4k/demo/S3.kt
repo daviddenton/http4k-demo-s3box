@@ -14,6 +14,9 @@ import org.http4k.core.Status
 import org.http4k.core.Status.Companion.OK
 import org.http4k.core.Uri
 import org.http4k.core.then
+import org.http4k.demo.Settings.AWS_BUCKET_URL
+import org.http4k.demo.Settings.AWS_CREDENTIALS
+import org.http4k.demo.Settings.S3_CREDENTIALS
 import org.http4k.filter.AwsAuth
 import org.http4k.filter.ClientFilters
 import org.http4k.lens.string
@@ -57,8 +60,8 @@ class S3(private val aws: HttpHandler) {
             { next(it.uri(it.uri.scheme(uri.scheme).host(uri.host).port(uri.port))) }
         }
 
-        fun configured(config: Configuration) = S3(SetBucketHost(config[Settings.AWS_BUCKET_URL])
-            .then(ClientFilters.AwsAuth(config[Settings.S3_CREDENTIALS], config[Settings.AWS_CREDENTIALS]))
+        fun configured(config: Configuration) = S3(SetBucketHost(config[AWS_BUCKET_URL])
+            .then(ClientFilters.AwsAuth(config[S3_CREDENTIALS], config[AWS_CREDENTIALS]))
             .then(ApacheClient()))
     }
 }

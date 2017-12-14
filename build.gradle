@@ -3,7 +3,7 @@ version '1.0-SNAPSHOT'
 
 buildscript {
     ext.kotlin_version = '1.1.60'
-    ext.http4k_version = '3.1.1'
+    ext.http4k_version = '3.5.0'
 
     repositories {
         mavenCentral()
@@ -21,9 +21,6 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
-    maven {
-        url "https://dl.bintray.com/http4k/maven"
-    }
 }
 
 dependencies {
